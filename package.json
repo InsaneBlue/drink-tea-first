@@ -1,8 +1,9 @@
 {
 	"name": "drink-tea-first",
 	"displayName": "Drink Tea First",
-	"description": "",
+	"description": "drink tea first",
 	"version": "0.0.1",
+	"publisher": "InsaneBlue",
 	"engines": {
 		"vscode": "^1.58.0"
 	},
