@@ -4,12 +4,12 @@ import * as dayjs from "dayjs";
 // 15点饮茶 19点下班
 const defaultTask = [
   {
-    activeTime: "09:00:00",
-    message: "喂！三点几啦，饮茶先啦！",
-  },
-  {
     activeTime: "14:45:00",
     message: "喂！快三点啦，看看基金股票啦！",
+  },
+  {
+    activeTime: "15:00:00",
+    message: "喂！三点几啦，饮茶先啦！",
   },
   {
     activeTime: "19:00:00",
