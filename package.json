@@ -2,8 +2,9 @@
   "name": "drink-tea-first",
   "displayName": "Drink Tea First",
   "description": "drink tea first",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "InsaneBlue",
+  "repository": "https://github.com/InsaneBlue/drink-tea-first",
   "engines": {
     "vscode": "^1.58.0"
   },
