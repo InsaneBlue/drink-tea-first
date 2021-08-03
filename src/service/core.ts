@@ -17,17 +17,13 @@ interface Task {
 const hooks: Array<string> = [
   "onBeforeCreate",
   "onCreated",
-  "onBeforeRemind",
-  "onReminded",
-  "onBeforeUpdate",
-  "onUpdated",
+  "onTimerTrigger",
+  "onTimerTriggered",
 ];
 
 export default class Timer {
   // task queue
   queue: Array<Task>;
-  // daily task queue
-  dailyQueue: Array<Task>;
   // hooks
   hooks: any;
   // options
@@ -35,12 +31,16 @@ export default class Timer {
   // interval id
   intervalObj: any;
 
-  constructor(options: Options) {
+  constructor(options: Options = {}) {
     // save options
-    this.options = options;
+    this.options = Object.assign(
+      {
+        interval: 1000,
+      },
+      options
+    );
     // init task queue
     this.queue = [];
-    this.dailyQueue = [];
 
     // init hooks array
     this.hooks = hooks.reduce((acc: Record<string, any>, cur: string) => {
@@ -53,7 +53,7 @@ export default class Timer {
   }
 
   // 添加任务到队列中
-  public addTask(task: Array<any>, type: string) {
+  public addTask(task: Array<any>) {
     const taskArr = task.map((t) => {
       const { activeTime, message } = t;
       return {
@@ -61,11 +61,8 @@ export default class Timer {
         id: `${+new Date(activeTime)}-${message}`,
       };
     });
-    if (type === "daily") {
-      this.dailyQueue = [...this.dailyQueue, ...taskArr];
-    } else {
-      this.queue = [...this.queue, ...taskArr];
-    }
+
+    this.queue = [...this.queue, ...taskArr];
   }
 
   // 注册插件
@@ -80,30 +77,29 @@ export default class Timer {
   // 初始化
   create() {
     const {
-      options: { interval = 1000 * 60 },
+      options: { interval },
     } = this;
     this.flushHooks("onBeforeCreate");
 
     this.intervalObj = setInterval(() => {
-      this.flushHooks("onBeforeRemind");
+      const curTimeTs = +new Date();
+      this.flushHooks("onTimerTrigger", {
+        triggerTimeTs: curTimeTs,
+      });
 
-      this.intervalHandler();
+      this.intervalHandler(curTimeTs);
 
-      this.flushHooks("onReminded");
-
-      this.shouldUpdate();
+      this.flushHooks("onTimerTriggered");
     }, interval);
 
     this.flushHooks("onCreated");
   }
 
   // 定时器任务处理
-  intervalHandler() {
-    const curTime = +new Date();
+  intervalHandler(curTime: number) {
     const task = this.checkTask(curTime, 1000 * 60);
-    const dailyTask = this.checkDailyTask(curTime, 1000 * 60);
 
-    [...task, ...dailyTask].forEach((t: Task) => {
+    task.forEach((t: Task) => {
       const { message, activeTime } = t;
       const millisecond = +new Date(activeTime) - +new Date();
       t.hasChecked = true;
@@ -115,13 +111,6 @@ export default class Timer {
 
     // 筛掉已经处理的任务
     this.queue = this.queue.filter((q) => !q.hasChecked);
-  }
-
-  // 检测是否零点，需要更新每日任务
-  shouldUpdate() {
-    this.flushHooks("onBeforeUpdate");
-
-    this.flushHooks("onUpdated");
   }
 
   // 检查指定时间段内是否有任务
@@ -137,29 +126,11 @@ export default class Timer {
     });
   }
 
-  // 检测每日任务
-  checkDailyTask(curTimestamp: number, period: number) {
-    return this.dailyQueue.filter((q: Task) => {
-      const { activeTime, isDaily } = q;
-      const hour = dayjs().hour();
-      const minute = dayjs().minute();
-      const second = dayjs().second();
-      const activeTimestamp = +new Date(activeTime);
-
-      const [actHour, actMinute, actSecond] = activeTime.split(":");
-      return (
-        parseInt(actHour) === hour &&
-        parseInt(actMinute) === minute &&
-        parseInt(actSecond) === second
-      );
-    });
-  }
-
   // 处理所有生命周期回调
-  flushHooks(hookName: string = "") {
+  flushHooks(hookName: string = "", params?: any) {
     this.hooks[hookName].forEach((h: any) => {
       if (isFunction(h)) {
-        h(this);
+        h(this, params);
       }
     });
   }

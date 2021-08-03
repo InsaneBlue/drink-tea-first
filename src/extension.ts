@@ -17,7 +17,6 @@ export function activate(context: vscode.ExtensionContext) {
   const timerInstance: Timer = new Timer();
   // 添加每日提醒插件
   timerInstance.use(dailyReminder());
-
 }
 
 // this method is called when your extension is deactivated
