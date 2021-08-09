@@ -1,14 +1,11 @@
 import * as dayjs from "dayjs";
 import { getConfiguration } from "./utils";
-import * as vscode from "vscode";
 
 function dailyReminder() {
   // 读取默认任务配置
   const defaultTask = getConfiguration().get("drink.daily.task", []);
   // 读取默认提示日配置
-  const defaultDay: any = vscode.workspace
-    .getConfiguration()
-    .get("drink.daily.day", []);
+  const defaultDay: any = getConfiguration().get("drink.daily.day", []);
 
   // 定时器触发前检查是否需要插入任务
   function onTimerTrigger(timer: any, params: any) {
