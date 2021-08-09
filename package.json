@@ -2,7 +2,7 @@
   "name": "drink-tea-first",
   "displayName": "Drink Tea First",
   "description": "drink tea first",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "publisher": "InsaneBlue",
   "repository": "https://github.com/InsaneBlue/drink-tea-first",
   "engines": {
@@ -21,7 +21,41 @@
         "command": "drink-tea-first.helloWorld",
         "title": "Hello World"
       }
-    ]
+    ],
+    "configuration": {
+      "type": "object",
+      "title": "Drink tea first configuration",
+      "properties": {
+        "drink.daily.task": {
+          "type": "array",
+          "description": "Daily reminder task",
+          "default": [
+            {
+              "activeTime": "14:45:00",
+              "message": "亲，快三点啦，看看基金股票啦～"
+            },
+            {
+              "activeTime": "15:00:00",
+              "message": "亲，三点啦，先喝杯茶歇一歇啦～"
+            },
+            {
+              "activeTime": "19:00:00",
+              "message": "亲，七点啦，收拾收拾下班啦～"
+            }
+          ]
+        },
+        "drink.daily.day": {
+          "type": "Array",
+          "default": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
