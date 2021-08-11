@@ -2,7 +2,7 @@
   "name": "drink-tea-first",
   "displayName": "Drink Tea First",
   "description": "drink tea first",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "publisher": "InsaneBlue",
   "repository": "https://github.com/InsaneBlue/drink-tea-first",
   "engines": {
@@ -28,7 +28,7 @@
       "properties": {
         "drink.daily.task": {
           "type": "array",
-          "description": "Daily reminder task",
+          "description": "每日任务提醒",
           "default": [
             {
               "activeTime": "14:45:00",
@@ -45,7 +45,8 @@
           ]
         },
         "drink.daily.day": {
-          "type": "Array",
+          "type": "array",
+          "description": "每日任务提醒重复，周日-周六（0-6）",
           "default": [
             1,
             2,
