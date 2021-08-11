@@ -6,6 +6,6 @@ export function isFunction(fun: any) {
 }
 
 // 读取插件配置
-export function getConfiguration() {
-  return vscode.workspace.getConfiguration();
+export function getConfiguration(section:string, defaultValue:any) {
+  return vscode.workspace.getConfiguration().get(section, defaultValue);
 }
