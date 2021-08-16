@@ -42,7 +42,7 @@ function loopReminder() {
         // 当前时间点在结束时间之前，且在开始时间之后，需要添加一个任务到队列中
         while (
           (endTimeObj.isAfter(begin) || endTimeObj.isSame(begin)) &&
-          startTimeObj.isBefore(begin)
+          (startTimeObj.isBefore(begin) || startTimeObj.isSame(begin))
         ) {
           task.push({
             message,
