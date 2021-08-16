@@ -27,8 +27,8 @@ function dailyReminder() {
     } = timer;
 
     const task = defaultTask.reduce((acc: any, cur: any) => {
-      const { activeTime } = cur;
-      const str = `${dayjs(triggerTimeTs).format("YYYY-MM-DD")} ${activeTime}`;
+      const { time } = cur;
+      const str = `${dayjs(triggerTimeTs).format("YYYY-MM-DD")} ${time}`;
       const taskTimeTs = +new Date(str);
 
       // 不在预设日期范围内不提示
@@ -46,7 +46,7 @@ function dailyReminder() {
       ) {
         acc.push({
           ...cur,
-          activeTime: str,
+          time: str,
         });
       }
       return acc;

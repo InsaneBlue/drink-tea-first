@@ -1,4 +1,3 @@
-import * as dayjs from "dayjs";
 import * as vscode from "vscode";
 import { isFunction } from "./utils";
 
@@ -8,10 +7,9 @@ interface Options {
 
 interface Task {
   id: string;
-  activeTime: string;
+  time: string;
   message: string;
   hasChecked?: boolean;
-  isDaily?: boolean;
 }
 
 const hooks: Array<string> = [
@@ -55,10 +53,10 @@ export default class Timer {
   // 添加任务到队列中
   public addTask(task: Array<any>) {
     const taskArr = task.map((t) => {
-      const { activeTime, message } = t;
+      const { time, message } = t;
       return {
         ...t,
-        id: `${+new Date(activeTime)}-${message}`,
+        id: `${+new Date(time)}-${message}`,
       };
     });
 
@@ -100,8 +98,8 @@ export default class Timer {
     const task = this.checkTask(curTime, 1000 * 60);
 
     task.forEach((t: Task) => {
-      const { message, activeTime } = t;
-      const millisecond = +new Date(activeTime) - +new Date();
+      const { message, time } = t;
+      const millisecond = +new Date(time) - +new Date();
       t.hasChecked = true;
 
       setTimeout(() => {
@@ -116,8 +114,8 @@ export default class Timer {
   // 检查指定时间段内是否有任务
   checkTask(curTimestamp: number, period: number) {
     return this.queue.filter((q: Task) => {
-      const { activeTime } = q;
-      const activeTimestamp = +new Date(activeTime);
+      const { time } = q;
+      const activeTimestamp = +new Date(time);
 
       return (
         activeTimestamp > curTimestamp &&

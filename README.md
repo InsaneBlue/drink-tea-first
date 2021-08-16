@@ -1,56 +1,64 @@
 # drink-tea-first
 
-remind you drink tea first at 3 pm every day
+每日提醒插件，支持每日提醒，循环提醒功能，可自定义配置提醒任务
+
+Remind you to do something
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Daily Reminder
 
-For example if there is an image subfolder under your extension project workspace:
+每日提醒，默认添加 3 项任务，可配置任务时间和内容，每周任务提示天数
 
-\!\[feature X\]\(images/feature-x.png\)
+### Loop Reminder
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+循环提醒，默认添加 3 项提醒，可配置提醒任务，支持提醒文案、起止时间段、单个循环时间长度配置
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- 每日提醒
 
-For example:
+  - `drink.daily.day`: 每周每日提醒生效天数，0-6 分别表示周日到周六
 
-This extension contributes the following settings:
+  - `drink.daily.task`: 配置每日提醒任务，任务触发前 1 秒仍可更改
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+  - task示例
+
+    ```json
+    {
+      "drink.daily.task": [
+        {
+          "time": "15:00:00", // 提醒时间
+          "message": "亲，三点啦，先喝杯茶歇一歇啦～" // 提醒文案
+        },
+      ]
+    }
+    ```
+
+- 循环提醒
+
+  - `drink.loop.day`: 循环任务生效天数，0-6 分别表示周日到周六
+
+  - `drink.loop.task`: 配置循环提醒任务
+
+  - task示例
+
+    ```json
+    {
+      "drink.daily.task": [
+        {
+          "timeRange": [9, 18], // 提醒时间段
+          "loop": 60, // 循环时间，单位分钟
+          "message": "亲，记得喝水哦～" // 提醒文案
+        },
+      ]
+    }
+    ```
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- 每日提醒目前暂不支持取消任务，任务会在提示时间的前 1 秒被推入任务队列，进入队列后无法取消
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
+详见更改日志

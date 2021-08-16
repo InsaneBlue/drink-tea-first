@@ -1,9 +1,25 @@
 # Change Log
 
-All notable changes to the "drink-tea-first" extension will be documented in this file.
+0.0.5
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+  + 新增循环提醒，默认添加每小时饮水、每小时站立、每小时眼睛放松提醒
+  + 更新插件图标
+  + 更新readme文档，提供使用指南和配置方法
+  + 更新change log，更加方便地查看版本更新
 
-## [Unreleased]
+0.0.4
 
-- Initial release
+  + 支持用户自定义配置每日提醒任务
+  + 支持用户自定义配置每日提醒在每周内的生效时间
+
+0.0.3
+
+  + 新增每日提醒，每日定时提醒饮茶、看股票、下班
+
+0.0.2
+
+  + 优化core逻辑，timer处理逻辑
+
+0.0.1
+
+  + 初始化项目
