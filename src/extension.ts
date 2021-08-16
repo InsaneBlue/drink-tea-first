@@ -3,6 +3,7 @@
 import * as vscode from "vscode";
 import Timer from "./service/core";
 import dailyReminder from "./service/dailyReminder";
+import loopReminder from "./service/loopReminder";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -17,6 +18,7 @@ export function activate(context: vscode.ExtensionContext) {
   const timerInstance: Timer = new Timer();
   // 添加每日提醒插件
   timerInstance.use(dailyReminder());
+  timerInstance.use(loopReminder());
 }
 
 // this method is called when your extension is deactivated

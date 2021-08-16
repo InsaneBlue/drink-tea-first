@@ -8,6 +8,7 @@
   "engines": {
     "vscode": "^1.58.0"
   },
+  "icon": "tea.png",
   "categories": [
     "Other"
   ],
@@ -31,22 +32,51 @@
           "description": "每日任务提醒",
           "default": [
             {
-              "activeTime": "14:45:00",
+              "time": "14:45:00",
               "message": "亲，快三点啦，看看基金股票啦～"
             },
             {
-              "activeTime": "15:00:00",
+              "time": "15:00:00",
               "message": "亲，三点啦，先喝杯茶歇一歇啦～"
-            },
-            {
-              "activeTime": "19:00:00",
-              "message": "亲，七点啦，收拾收拾下班啦～"
             }
           ]
         },
         "drink.daily.day": {
           "type": "array",
-          "description": "每日任务提醒重复，周日-周六（0-6）",
+          "description": "每日提醒重复日期，周日-周六（0-6）",
+          "default": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        "drink.loop.task": {
+          "type": "array",
+          "description": "循环任务提醒",
+          "default": [
+            {
+              "timeRange": [
+                "09:00:00",
+                "18:00:00"
+              ],
+              "loop": 120,
+              "message": "亲，记得喝水哦～"
+            },
+            {
+              "timeRange": [
+                "09:00:00",
+                "18:00:00"
+              ],
+              "loop": 60,
+              "message": "亲，站起来活动一下吧～"
+            }
+          ]
+        },
+        "drink.loop.day": {
+          "type": "array",
+          "description": "循环提醒重复日期，周日-周六（0-6）",
           "default": [
             1,
             2,

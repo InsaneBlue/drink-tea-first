@@ -7,7 +7,7 @@ interface Options {
 
 interface Task {
   id: string;
-  time: string;
+  time: number;
   message: string;
   hasChecked?: boolean;
 }
@@ -56,7 +56,7 @@ export default class Timer {
       const { time, message } = t;
       return {
         ...t,
-        id: `${+new Date(time)}-${message}`,
+        id: `${time}-${message}`,
       };
     });
 
@@ -99,7 +99,7 @@ export default class Timer {
 
     task.forEach((t: Task) => {
       const { message, time } = t;
-      const millisecond = +new Date(time) - +new Date();
+      const millisecond = time - +new Date();
       t.hasChecked = true;
 
       setTimeout(() => {
@@ -115,12 +115,7 @@ export default class Timer {
   checkTask(curTimestamp: number, period: number) {
     return this.queue.filter((q: Task) => {
       const { time } = q;
-      const activeTimestamp = +new Date(time);
-
-      return (
-        activeTimestamp > curTimestamp &&
-        activeTimestamp < curTimestamp + period
-      );
+      return time > curTimestamp && time < curTimestamp + period;
     });
   }
 
