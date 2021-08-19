@@ -1,5 +1,8 @@
 import * as vscode from "vscode";
+import * as dayjs from "dayjs";
+
 import { isFunction } from "./utils";
+import { REMIND_LATER, CLOSE, LATER_MINUTE } from "./constants";
 
 interface Options {
   interval?: number;
@@ -102,8 +105,20 @@ export default class Timer {
       const millisecond = time - +new Date();
       t.hasChecked = true;
 
-      setTimeout(() => {
-        vscode.window.showInformationMessage(message);
+      setTimeout(async () => {
+        try {
+          const res = await vscode.window.showInformationMessage(
+            message,
+            REMIND_LATER,
+            CLOSE
+          );
+          // 点击稍后提醒，延迟一定时间再次弹出任务
+          if (res === REMIND_LATER) {
+            this.remindLater(t);
+          }
+        } catch (e) {
+          console.log("showInformationMessage error", e);
+        }
       }, millisecond);
     });
 
@@ -120,11 +135,24 @@ export default class Timer {
   }
 
   // 处理所有生命周期回调
-  flushHooks(hookName: string = "", params?: any) {
+  flushHooks(hookName: string = "", params?: any): void {
     this.hooks[hookName].forEach((h: any) => {
       if (isFunction(h)) {
         h(this, params);
       }
     });
+  }
+
+  // 一段时候再次提醒
+  remindLater(task: Task): void {
+    const { time } = task;
+
+    this.addTask([
+      {
+        ...task,
+        time: +dayjs(time).add(LATER_MINUTE, "m"),
+        hasChecked: false,
+      },
+    ]);
   }
 }

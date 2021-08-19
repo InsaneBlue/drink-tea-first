@@ -16,7 +16,7 @@ export function activate(context: vscode.ExtensionContext) {
 
   // 新建定时器实例
   const timerInstance: Timer = new Timer();
-  // 添加每日提醒插件
+  // 添加插件
   timerInstance.use(dailyReminder());
   timerInstance.use(loopReminder());
 }

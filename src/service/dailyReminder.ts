@@ -1,16 +1,13 @@
 import * as vscode from "vscode";
 import * as dayjs from "dayjs";
 import { getConfiguration, transTimeToDate } from "./utils";
-
-const CONFIG_DAY = "drink.daily.day";
-
-const CONFIG_TASK = "drink.daily.task";
+import { DAILY_DAY, DAILY_TASK } from "./constants";
 
 function dailyReminder() {
   // 读取默认任务配置
-  let taskConf: Array<any> = getConfiguration(CONFIG_TASK, []);
+  let taskConf: Array<any> = getConfiguration(DAILY_TASK, []);
   // 读取默认提示日配置
-  let dayConf: Array<number> = getConfiguration(CONFIG_DAY, []);
+  let dayConf: Array<number> = getConfiguration(DAILY_DAY, []);
 
   // 监听配置修改
   vscode.workspace.onDidChangeConfiguration((event) => {
@@ -18,8 +15,8 @@ function dailyReminder() {
 
     // 配置是否有更新
     if (isAffect) {
-      taskConf = getConfiguration(CONFIG_TASK, []);
-      dayConf = getConfiguration(CONFIG_DAY, []);
+      taskConf = getConfiguration(DAILY_TASK, []);
+      dayConf = getConfiguration(DAILY_DAY, []);
     }
   });
 

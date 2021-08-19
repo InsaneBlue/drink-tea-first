@@ -1,16 +1,13 @@
 import * as vscode from "vscode";
 import * as dayjs from "dayjs";
 import { getConfiguration, transTimeToDate } from "./utils";
-
-const CONFIG_DAY = "drink.loop.day";
-
-const CONFIG_TASK = "drink.loop.task";
+import { LOOP_DAY, LOOP_TASK } from "./constants";
 
 function loopReminder() {
   // 读取默认任务配置
-  let taskConf: Array<any> = getConfiguration(CONFIG_TASK, []);
+  let taskConf: Array<any> = getConfiguration(LOOP_TASK, []);
   // 读取默认提示日配置
-  let dayConf: Array<number> = getConfiguration(CONFIG_DAY, []);
+  let dayConf: Array<number> = getConfiguration(LOOP_DAY, []);
   // 待执行任务
   let loopTask: Array<any> = mapTask(taskConf);
 
@@ -20,8 +17,8 @@ function loopReminder() {
 
     // 配置是否有更新
     if (isAffect) {
-      taskConf = getConfiguration(CONFIG_TASK, []);
-      dayConf = getConfiguration(CONFIG_DAY, []);
+      taskConf = getConfiguration(LOOP_TASK, []);
+      dayConf = getConfiguration(LOOP_DAY, []);
 
       loopTask = mapTask(taskConf);
     }
