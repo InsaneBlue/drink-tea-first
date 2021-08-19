@@ -2,7 +2,7 @@
   "name": "drink-tea-first",
   "displayName": "Drink Tea First",
   "description": "drink tea first",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "publisher": "InsaneBlue",
   "repository": "https://github.com/InsaneBlue/drink-tea-first",
   "engines": {
@@ -25,7 +25,7 @@
     ],
     "configuration": {
       "type": "object",
-      "title": "Drink tea first configuration",
+      "title": "Drink tea first",
       "properties": {
         "drink.daily.task": {
           "type": "array",

@@ -46,7 +46,7 @@ function loopReminder() {
         ) {
           task.push({
             message,
-            time: +begin,
+            time: begin.format("HH:mm:ss"),
           });
           begin = begin.add(loop, "m");
         }
@@ -73,8 +73,13 @@ function loopReminder() {
       }
 
       const { time } = cur;
+      const timeObj = transTimeToDate(time);
+      const taskTimeTs = +timeObj;
       // 当任务时间在当前时间间隔中时，在加入任务队列
-      if (time >= triggerTimeTs && time < triggerTimeTs + interval) {
+      if (
+        taskTimeTs >= triggerTimeTs &&
+        taskTimeTs < triggerTimeTs + interval
+      ) {
         acc.push({
           ...cur,
           time,

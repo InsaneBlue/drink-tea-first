@@ -1,56 +1,62 @@
 # drink-tea-first
 
-remind you drink tea first at 3 pm every day
+A remind extension including daily reminder and loop reminder, which can remind you to do something.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+### Daily Reminder
 
-For example if there is an image subfolder under your extension project workspace:
+2 tasks are added by default, custom configs in setting json are also supported.
 
-\!\[feature X\]\(images/feature-x.png\)
+### Loop Reminder
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
-
-## Requirements
-
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+2 tasks are added by default, custom configs in setting json are also supported.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+- daily reminder
 
-For example:
+  - `drink.daily.day`: task activate days, 0-6 stand for Sunday to Saturday
 
-This extension contributes the following settings:
+  - `drink.daily.task`: daily task, can be changed before task activates
 
-* `myExtension.enable`: enable/disable this extension
-* `myExtension.thing`: set to `blah` to do something
+  - example
+
+    ```json
+    {
+      "drink.daily.task": [
+        {
+          "time": "15:00:00", // task time
+          "message": "亲，三点啦，先喝杯茶歇一歇啦～" // task text
+        }
+      ]
+    }
+    ```
+
+- loop reminder
+
+  - `drink.loop.day`: task activate days, 0-6 stand for Sunday to Saturday
+
+  - `drink.loop.task`: loop task, can be changed before task activates
+
+  - example
+
+    ```json
+    {
+      "drink.daily.task": [
+        {
+          "timeRange": [9, 18], // time range of task
+          "loop": 60, // loop interval time
+          "message": "亲，记得喝水哦～" // task text
+        }
+      ]
+    }
+    ```
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- cancel task is not supported now. Tasks will be push into queue 1 sec before the activate time comes, then they can not be canceled.
 
 ## Release Notes
 
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
------------------------------------------------------------------------------------------------------------
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
+more details in changelog
