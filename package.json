@@ -2,7 +2,7 @@
   "name": "drink-tea-first",
   "displayName": "Drink Tea First",
   "description": "drink tea first",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "publisher": "InsaneBlue",
   "repository": "https://github.com/InsaneBlue/drink-tea-first",
   "engines": {
@@ -29,7 +29,7 @@
       "properties": {
         "drink.daily.task": {
           "type": "array",
-          "description": "每日任务提醒",
+          "description": "每日提醒",
           "default": [
             {
               "time": "14:45:00",
@@ -54,7 +54,7 @@
         },
         "drink.loop.task": {
           "type": "array",
-          "description": "循环任务提醒",
+          "description": "循环提醒",
           "default": [
             {
               "timeRange": [
@@ -83,6 +83,46 @@
             3,
             4,
             5
+          ]
+        },
+        "drink.date.task": {
+          "type": "array",
+          "description": "日期提醒",
+          "default": [
+            {
+              "time": "01-01",
+              "message": ""
+            }
+          ]
+        },
+        "drink.date.holiday": {
+          "type": "array",
+          "description": "假日提醒",
+          "default": [
+            {
+              "time": "01-01",
+              "name": "元旦节"
+            },
+            {
+              "time": "03-08",
+              "name": "妇女节"
+            },
+            {
+              "time": "05-01",
+              "name": "劳动节"
+            },
+            {
+              "time": "05-04",
+              "name": "青年节"
+            },
+            {
+              "time": "06-01",
+              "name": "儿童节"
+            },
+            {
+              "time": "10-10",
+              "name": "国庆节"
+            }
           ]
         }
       }

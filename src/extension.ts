@@ -2,8 +2,10 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import Timer from "./service/core";
+
 import dailyReminder from "./service/dailyReminder";
 import loopReminder from "./service/loopReminder";
+import dateReminder from "./service/dateReminder";
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
@@ -19,6 +21,7 @@ export function activate(context: vscode.ExtensionContext) {
   // 添加插件
   timerInstance.use(dailyReminder());
   timerInstance.use(loopReminder());
+  timerInstance.use(dateReminder());
 }
 
 // this method is called when your extension is deactivated
