@@ -79,7 +79,7 @@ function loopReminder() {
       ) {
         acc.push({
           ...cur,
-          time,
+          time: taskTimeTs,
         });
       }
       return acc;
