@@ -1,15 +1,25 @@
 import * as vscode from "vscode";
 import * as dayjs from "dayjs";
 import { getConfiguration, transTimeToDate } from "./utils";
-import { DATE_TASK, DATE_HOLIDAY } from "./constants";
+import {
+  DATE_TASK,
+  DATE_HOLIDAY,
+  DATE_HOLIDAY_REMIND_TIME,
+  DATE_TASK_REMIND_TIME,
+  DATE_COUNTDOWN,
+} from "./constants";
 
 function dateReminder() {
-  // 读取默认任务配置
-  let taskConf: Array<any> = getConfiguration(DATE_TASK, []);
+  // 读取日期任务配置
+  let taskConf: Array<any> = [];
+  // 日期提醒时间点
+  let taskTimeConf: Array<String> = [];
   // 节假日配置
-  let holidayConf: Array<any> = getConfiguration(DATE_HOLIDAY, [])
-  // 待执行任务
-  let dateTask: Array<any> = mapTask(taskConf);
+  let holidayConf: Array<any> = [];
+  // 假日提示时间
+  let holidayTimeConf: Array<String> = [];
+
+  getConf();
 
   // 监听配置修改
   vscode.workspace.onDidChangeConfiguration((event) => {
@@ -17,40 +27,38 @@ function dateReminder() {
 
     // 配置是否有更新
     if (isAffect) {
-      taskConf = getConfiguration(DATE_TASK, []);
-      holidayConf = getConfiguration(DATE_HOLIDAY, []);
-
-      dateTask = mapTask(taskConf);
+      getConf();
     }
   });
 
-  // 将配置转换为待执行的任务
-  function mapTask(taskConf: Array<any>): Array<any> {
-    const task: Array<any> = [];
+  // 读取配置的任务
+  function getConf() {
+    // 读取日期任务配置
+    taskConf = getConfiguration(DATE_TASK, []);
+    // 日期提醒时间点
+    taskTimeConf = getConfiguration(DATE_TASK_REMIND_TIME, []);
+    // 节假日配置
+    holidayConf = getConfiguration(DATE_HOLIDAY, []);
+    // 假日提示时间
+    holidayTimeConf = getConfiguration(DATE_HOLIDAY_REMIND_TIME, []);
+  }
 
-    taskConf.forEach((t) => {
-      const { timeRange: [start, end] = [], loop = 60, message = "" } = t;
+  // 判断是否是提醒日
+  function isRemindDate(date: String) {
+    const res = {
+      leftDay: 0,
+      shouldRemind: false,
+    };
+    const curTime = dayjs();
+    const dateTime = dayjs(`${curTime.year()}-${date}`);
 
-      const startTimeObj = transTimeToDate(start);
-      const endTimeObj = transTimeToDate(end);
-      let begin = startTimeObj;
-
-      if (message && loop > 0) {
-        // 当前时间点在结束时间之前，且在开始时间之后，需要添加一个任务到队列中
-        while (
-          (endTimeObj.isAfter(begin) || endTimeObj.isSame(begin)) &&
-          (startTimeObj.isBefore(begin) || startTimeObj.isSame(begin))
-        ) {
-          task.push({
-            message,
-            time: begin.format("HH:mm:ss"),
-          });
-          begin = begin.add(loop, "m");
-        }
+    DATE_COUNTDOWN.forEach((c) => {
+      if (dateTime.isSame(curTime.add(c, "day"), 'day')) {
+        res.leftDay = c;
+        res.shouldRemind = true;
       }
     });
-
-    return task;
+    return res;
   }
 
   // 定时器触发前检查是否需要插入任务
@@ -60,26 +68,61 @@ function dateReminder() {
       options: { interval },
     } = timer;
 
-    const task = dateTask.reduce((acc: any, cur: any) => {
+    // 处理节假日提醒
+    // 当前时间是否是配置的提醒时间点范围内
+    const holidayTime = holidayTimeConf.find((t) => {
+      const ts = +transTimeToDate(t);
+      return ts >= triggerTimeTs && ts < triggerTimeTs + interval;
+    });
 
-      const { time } = cur;
-      const timeObj = transTimeToDate(time);
-      const taskTimeTs = +timeObj;
-      // 当任务时间在当前时间间隔中时，在加入任务队列
-      if (
-        taskTimeTs >= triggerTimeTs &&
-        taskTimeTs < triggerTimeTs + interval
-      ) {
+    const holidayTask = holidayConf.reduce((acc: any, cur: any) => {
+      const { date, name } = cur;
+      // 是否是可提示日期
+      const { shouldRemind, leftDay } = isRemindDate(date);
+
+      if (shouldRemind && holidayTime) {
+        const text =
+          leftDay === 0
+            ? `亲，今天就是 ${name} 啦`
+            : `亲，距离 ${name} 还剩 ${leftDay} 天`;
         acc.push({
-          ...cur,
-          time,
+          message: text,
+          time: +transTimeToDate(holidayTime),
         });
       }
       return acc;
     }, []);
 
-    if (task && task.length > 0) {
-      timer.addTask(task);
+    if (holidayTask && holidayTask.length > 0) {
+      timer.addTask(holidayTask);
+    }
+
+    // 处理配置的日期提醒
+    const taskTime = taskTimeConf.find((t) => {
+      const ts = +transTimeToDate(t);
+      return ts >= triggerTimeTs && ts < triggerTimeTs + interval;
+    });
+
+    const dateTask = taskConf.reduce((acc: any, cur: any) => {
+      const { date, name } = cur;
+      // 是否是可提示日期
+      const { shouldRemind, leftDay } = isRemindDate(date);
+
+      if (shouldRemind && taskTime) {
+        const text =
+          leftDay === 0
+            ? `亲，今天就是 ${name} 啦`
+            : `亲，距离 ${name} 还剩 ${leftDay} 天`;
+        acc.push({
+          message: text,
+          time: +transTimeToDate(taskTime),
+        });
+      }
+      return acc;
+    }, []);
+
+    if (dateTask && dateTask.length > 0) {
+      timer.addTask(dateTask);
     }
   }
 

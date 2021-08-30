@@ -90,9 +90,17 @@
           "description": "日期提醒",
           "default": [
             {
-              "time": "01-01",
-              "message": ""
+              "date": "01-01",
+              "name": ""
             }
+          ]
+        },
+        "drink.date.taskRemindTime": {
+          "type": "array",
+          "description": "日期提醒时间点",
+          "default": [
+            "10:00:00",
+            "15:00:00"
           ]
         },
         "drink.date.holiday": {
@@ -100,29 +108,37 @@
           "description": "假日提醒",
           "default": [
             {
-              "time": "01-01",
+              "date": "01-01",
               "name": "元旦节"
             },
             {
-              "time": "03-08",
+              "date": "03-08",
               "name": "妇女节"
             },
             {
-              "time": "05-01",
+              "date": "05-01",
               "name": "劳动节"
             },
             {
-              "time": "05-04",
+              "date": "05-04",
               "name": "青年节"
             },
             {
-              "time": "06-01",
+              "date": "06-01",
               "name": "儿童节"
             },
             {
-              "time": "10-10",
+              "date": "10-10",
               "name": "国庆节"
             }
+          ]
+        },
+        "drink.date.holidayRemindTime": {
+          "type": "array",
+          "description": "假日提醒时间点",
+          "default": [
+            "10:00:00",
+            "15:00:00"
           ]
         }
       }
