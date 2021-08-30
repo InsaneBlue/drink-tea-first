@@ -22,7 +22,7 @@ Remind you to do something
 
   - `drink.daily.task`: 配置每日提醒任务，任务触发前 1 秒仍可更改
 
-  - task示例
+  - task 示例
 
     ```json
     {
@@ -30,7 +30,7 @@ Remind you to do something
         {
           "time": "15:00:00", // 提醒时间
           "message": "亲，三点啦，先喝杯茶歇一歇啦～" // 提醒文案
-        },
+        }
       ]
     }
     ```
@@ -41,7 +41,7 @@ Remind you to do something
 
   - `drink.loop.task`: 配置循环提醒任务
 
-  - task示例
+  - task 示例
 
     ```json
     {
@@ -50,8 +50,40 @@ Remind you to do something
           "timeRange": [9, 18], // 提醒时间段
           "loop": 60, // 循环时间，单位分钟
           "message": "亲，记得喝水哦～" // 提醒文案
-        },
+        }
       ]
+    }
+    ```
+
+- 日期提醒
+
+  - `drink.date.task`: 日期提醒任务
+
+  - `drink.date.taskRemindTime`: 日期提醒时间
+
+  - `drink.date.holiday`: 节假日提醒
+
+  - `drink.date.holidayRemindTime`: 节假日提醒时间
+
+  - 示例
+
+    ```json
+    {
+      "drink.date.task": {
+        "type": "array",
+        "description": "日期提醒",
+        "default": [
+          {
+            "date": "10-10",
+            "name": "周年纪念日"
+          }
+        ]
+      },
+      "drink.date.taskRemindTime": {
+        "type": "array",
+        "description": "日期提醒时间点",
+        "default": ["10:00:00", "15:00:00"]
+      }
     }
     ```
 

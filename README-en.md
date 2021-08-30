@@ -53,6 +53,39 @@ A remind extension including daily reminder and loop reminder, which can remind 
     }
     ```
 
+- date reminder
+
+  - `drink.date.task`: date task
+
+  - `drink.date.taskRemindTime`: date task activate time
+
+  - `drink.date.holiday`: holiday task
+
+  - `drink.date.holidayRemindTime`: holiday task activate time
+
+  - 示例
+
+    ```json
+    {
+      "drink.date.task": {
+        "type": "array",
+        "description": "日期提醒",
+        "default": [
+          {
+            "date": "10-10",
+            "name": "周年纪念日"
+          }
+        ]
+      },
+      "drink.date.taskRemindTime": {
+        "type": "array",
+        "description": "日期提醒时间点",
+        "default": ["10:00:00", "15:00:00"]
+      }
+    }
+    ```
+
+
 ## Known Issues
 
 - cancel task is not supported now. Tasks will be push into queue 1 sec before the activate time comes, then they can not be canceled.

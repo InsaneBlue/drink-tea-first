@@ -88,12 +88,7 @@
         "drink.date.task": {
           "type": "array",
           "description": "日期提醒",
-          "default": [
-            {
-              "date": "01-01",
-              "name": ""
-            }
-          ]
+          "default": []
         },
         "drink.date.taskRemindTime": {
           "type": "array",
