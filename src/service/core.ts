@@ -69,7 +69,7 @@ export default class Timer {
   // 注册插件
   public use(plugin: any) {
     for (let key in plugin) {
-      if (hooks.includes(key)) {
+      if (hooks.includes(key) && isFunction(plugin[key])) {
         this.hooks[key].push(plugin[key]);
       }
     }

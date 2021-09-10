@@ -2,7 +2,7 @@
   "name": "drink-tea-first",
   "displayName": "Drink Tea First",
   "description": "drink tea first",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "publisher": "InsaneBlue",
   "repository": "https://github.com/InsaneBlue/drink-tea-first",
   "engines": {
@@ -62,14 +62,6 @@
                 "18:00:00"
               ],
               "loop": 120,
-              "message": "🚰 亲，记得喝水哦～"
-            },
-            {
-              "timeRange": [
-                "09:00:00",
-                "18:00:00"
-              ],
-              "loop": 60,
               "message": "🏃 亲，站起来稍微活动一分钟吧～"
             }
           ]
@@ -134,6 +126,16 @@
           "default": [
             "10:00:00",
             "15:00:00"
+          ]
+        },
+        "drink.date.special": {
+          "type":"array",
+          "description": "特殊日期提醒",
+          "default":[
+            {
+              "date": "2021-05-24",
+              "name": "入职阿里"
+            }
           ]
         }
       }
